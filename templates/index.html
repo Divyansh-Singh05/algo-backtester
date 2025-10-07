@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithmic Trading Backtester</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Algorithmic Trading Backtester</h1>
+        
+        <div class="input-section">
+            <div class="form-group">
+                <label for="symbol">Stock Symbol:</label>
+                <input type="text" id="symbol" placeholder="e.g., AAPL" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="strategy-type">Strategy Type:</label>
+                <select id="strategy-type">
+                    <option value="predefined">Predefined Strategy</option>
+                    <option value="custom">Custom Strategy</option>
+                </select>
+            </div>
+            
+            <div id="predefined-strategy" class="strategy-section">
+                <div class="form-group">
+                    <label for="strategy">Select Strategy:</label>
+                    <select id="strategy" required>
+                        <option value="">Choose a strategy...</option>
+                    </select>
+                </div>
+                
+                <div id="parameters-container" class="form-group">
+                    <!-- Strategy parameters will be dynamically added here -->
+                </div>
+            </div>
+            
+            <div id="custom-strategy" class="strategy-section" style="display: none;">
+                <div class="strategy-builder">
+                    <div class="builder-section">
+                        <h3>Technical Indicators</h3>
+                        <div class="indicator-list">
+                            <div class="indicator-item">
+                                <input type="checkbox" name="indicator" value="sma" id="sma-indicator">
+                                <label for="sma-indicator">Simple Moving Average (SMA)</label>
+                                <div class="indicator-params" style="display: none;">
+                                    <input type="number" placeholder="Period" min="1" value="20">
+                                </div>
+                            </div>
+                            
+                            <div class="indicator-item">
+                                <input type="checkbox" name="indicator" value="rsi" id="rsi-indicator">
+                                <label for="rsi-indicator">Relative Strength Index (RSI)</label>
+                                <div class="indicator-params" style="display: none;">
+                                    <input type="number" placeholder="Period" min="1" value="14">
+                                </div>
+                            </div>
+                            
+                            <div class="indicator-item">
+                                <input type="checkbox" name="indicator" value="macd" id="macd-indicator">
+                                <label for="macd-indicator">MACD</label>
+                                <div class="indicator-params" style="display: none;">
+                                    <input type="number" placeholder="Fast Period" min="1" value="12">
+                                    <input type="number" placeholder="Slow Period" min="1" value="26">
+                                    <input type="number" placeholder="Signal Period" min="1" value="9">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="builder-section">
+                        <h3>Buy Conditions</h3>
+                        <div id="buy-conditions" class="conditions-list">
+                            <button type="button" class="add-condition">+ Add Condition</button>
+                        </div>
+                    </div>
+                    
+                    <div class="builder-section">
+                        <h3>Sell Conditions</h3>
+                        <div id="sell-conditions" class="conditions-list">
+                            <button type="button" class="add-condition">+ Add Condition</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" required>
+            </div>
+            
+            <button id="run-backtest" class="primary-button">Run Backtest</button>
+        </div>
+        
+        <div class="results-section">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Total Return</h3>
+                    <p id="total-return">-</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Sharpe Ratio</h3>
+                    <p id="sharpe-ratio">-</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Max Drawdown</h3>
+                    <p id="max-drawdown">-</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Win Rate</h3>
+                    <p id="win-rate">-</p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="equity-curve"></canvas>
+            </div>
+            
+            <div class="trades-container">
+                <h2>Trades</h2>
+                <table id="trades">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Profit/Loss</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Trade rows will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html> 
